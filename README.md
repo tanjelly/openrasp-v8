@@ -34,6 +34,7 @@ For convenience of build, we have built some third-party libraries to static lib
 
 - Linux x64
 - Linux x86
+- Linux aarch64
 - Linux musl
 - OSX x64
 - Windows x64
