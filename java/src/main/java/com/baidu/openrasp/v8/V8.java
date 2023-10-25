@@ -40,9 +40,15 @@ public class V8 {
         return Check(type, params, params_size, context, timeout);
     }
 
-    public static void Log(String msg) {
+    public static void Log(byte[] msg) {
         if (logger != null) {
-            logger.log(msg.replaceAll("\n$", ""));
+            String msgStr = "";
+            try {
+                msgStr = new String(msg, "UTF-8");
+                logger.log(msgStr.replaceAll("\n$", ""));
+            } catch (Exception e) {
+                logger.log(e.getLocalizedMessage());
+            }
         }
     }
 

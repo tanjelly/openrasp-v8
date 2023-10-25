@@ -50,7 +50,7 @@ class V8Class {
   V8Class(JNIEnv* env) {
     auto ref = env->FindClass("com/baidu/openrasp/v8/V8");
     cls = (jclass)env->NewGlobalRef(ref);
-    Log = env->GetStaticMethodID(cls, "Log", "(Ljava/lang/String;)V");
+    Log = env->GetStaticMethodID(cls, "Log", "([B)V");
     GetStack = env->GetStaticMethodID(cls, "GetStack", "()[B");
     GetFreeMemory = env->GetStaticMethodID(cls, "GetFreeMemory", "()J");
     Gc = env->GetStaticMethodID(cls, "Gc", "()V");

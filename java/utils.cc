@@ -30,8 +30,9 @@ std::mutex snapshot_mtx;
 thread_local PerThreadRuntime per_thread_runtime;
 
 void plugin_log(JNIEnv* env, const std::string& message) {
-  auto msg = String2Jstring(env, message);
-  env->CallStaticVoidMethod(v8_class.cls, v8_class.Log, msg);
+  auto bytearray = env->NewByteArray(message.length());
+  env->SetByteArrayRegion(bytearray, 0, message.length(), (jbyte*)message.c_str());
+  env->CallStaticVoidMethod(v8_class.cls, v8_class.Log, bytearray);
 }
 
 void plugin_log(const std::string& message) {

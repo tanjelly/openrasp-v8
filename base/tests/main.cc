@@ -115,8 +115,8 @@ TEST_CASE("Platform") {
   Snapshot snapshot("", std::vector<PluginFile>(), "1.2.3", 1000);
   auto isolate = Isolate::New(&snapshot, snapshot.timestamp);
   Platform::Get()->PumpMessageLoop(isolate);
-  Platform::Get()->CallOnForegroundThread(isolate, new DummyTask());
-  Platform::Get()->CallDelayedOnForegroundThread(isolate, new DummyTask(), 0);
+  // Platform::Get()->CallOnForegroundThread(isolate, new DummyTask());
+  // Platform::Get()->CallDelayedOnForegroundThread(isolate, new DummyTask(), 0);
   Platform::Get()->CallOnWorkerThread(std::unique_ptr<DummyTask>(new DummyTask()));
   Platform::Get()->CallDelayedOnWorkerThread(std::unique_ptr<DummyTask>(new DummyTask()), 0);
   Platform::Get()->CurrentClockTimeMillis();

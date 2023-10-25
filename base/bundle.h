@@ -83,10 +83,14 @@ class Platform : public v8::Platform {
   std::shared_ptr<v8::TaskRunner> GetForegroundTaskRunner(v8::Isolate* isolate) override;
   void CallOnWorkerThread(std::unique_ptr<v8::Task> task) override;
   void CallDelayedOnWorkerThread(std::unique_ptr<v8::Task> task, double delay_in_seconds) override;
-  void CallOnForegroundThread(v8::Isolate* isolate, v8::Task* task) override;
-  void CallDelayedOnForegroundThread(v8::Isolate* isolate, v8::Task* task, double delay_in_seconds) override;
+  // libv8 8.6.395.17 不存在下面两个方法，仅适用于上个版本（7.8.278.19）
+  // void CallOnForegroundThread(v8::Isolate* isolate, v8::Task* task) override;
+  // void CallDelayedOnForegroundThread(v8::Isolate* isolate, v8::Task* task, double delay_in_seconds) override;
   // void CallIdleOnForegroundThread(v8::Isolate* isolate, v8::IdleTask* task) override;
-  // bool IdleTasksEnabled(v8::Isolate* isolate) override;
+  // libv8 8.6.395.17 需要实现下面两个方法
+  bool IdleTasksEnabled(v8::Isolate* isolate) override;
+  std::unique_ptr<v8::JobHandle> PostJob(v8::TaskPriority priority, std::unique_ptr<v8::JobTask> job_task) override;
+
   double MonotonicallyIncreasingTime() override;
   double CurrentClockTimeMillis() override;
   v8::TracingController* GetTracingController() override;

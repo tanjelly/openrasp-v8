@@ -71,18 +71,23 @@ void Platform::CallOnWorkerThread(std::unique_ptr<v8::Task> task) {
 void Platform::CallDelayedOnWorkerThread(std::unique_ptr<v8::Task> task, double delay_in_seconds) {
   return default_platform->CallDelayedOnWorkerThread(std::move(task), delay_in_seconds);
 }
-void Platform::CallOnForegroundThread(v8::Isolate* isolate, v8::Task* task) {
-  return default_platform->CallOnForegroundThread(isolate, task);
-}
-void Platform::CallDelayedOnForegroundThread(v8::Isolate* isolate, v8::Task* task, double delay_in_seconds) {
-  return default_platform->CallDelayedOnForegroundThread(isolate, task, delay_in_seconds);
-}
-// void Platform::CallIdleOnForegroundThread(v8::Isolate* isolate, v8::IdleTask* task) {
-//   return default_platform->CallIdleOnForegroundThread(isolate, task);
+// void Platform::CallOnForegroundThread(v8::Isolate* isolate, v8::Task* task) {
+//   return default_platform->CallOnForegroundThread(isolate, task);
 // }
-// bool Platform::IdleTasksEnabled(v8::Isolate* isolate) {
-//   return default_platform->IdleTasksEnabled(isolate);
+// void Platform::CallDelayedOnForegroundThread(v8::Isolate* isolate, v8::Task* task, double delay_in_seconds) {
+//   return default_platform->CallDelayedOnForegroundThread(isolate, task, delay_in_seconds);
 // }
+//  void Platform::CallIdleOnForegroundThread(v8::Isolate* isolate, v8::IdleTask* task) {
+//    return default_platform->CallIdleOnForegroundThread(isolate, task);
+// }
+bool Platform::IdleTasksEnabled(v8::Isolate* isolate) {
+  return default_platform->IdleTasksEnabled(isolate);
+}
+std::unique_ptr<v8::JobHandle> Platform::PostJob(
+  v8::TaskPriority priority, std::unique_ptr<v8::JobTask> job_task) {
+  return v8::platform::NewDefaultJobHandle(
+    this, priority, std::move(job_task), NumberOfWorkerThreads());
+}
 double Platform::MonotonicallyIncreasingTime() {
   return default_platform->MonotonicallyIncreasingTime();
 }
