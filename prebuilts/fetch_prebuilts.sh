@@ -12,11 +12,7 @@ else
 fi
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
-  if [[ "$HOSTTYPE" == "aarch64" ]]; then
-    FILENAME="openrasp-v8-prebuilts-8.6-linux-aarch64.tar.gz"
-  else
-    FILENAME="openrasp-v8-prebuilts-7.8-linux.tar.gz"
-  fi
+  FILENAME="openrasp-v8-prebuilts-8.6-linux.tar.gz"
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   FILENAME="openrasp-v8-prebuilts-7.8-darwin.tar.gz"
 elif [[ "$OSTYPE" == "msys" ]]; then
@@ -28,7 +24,7 @@ else
   exit 1
 fi
 
-if [[ "$HOSTTYPE" == "aarch64" ]]; then
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
   curl -# -k -L -o $DIR/$FILENAME.download -z $DIR/$FILENAME https://github.com/tanjelly/openrasp-v8/releases/download/v1/$FILENAME
 else
   curl -# -k -L -o $DIR/$FILENAME.download -z $DIR/$FILENAME https://packages.baidu.com/app/openrasp/v8/$FILENAME

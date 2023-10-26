@@ -66,12 +66,11 @@ if(${SYSTEM_NAME} STREQUAL "windows")
 endif()
 
 if(${SYSTEM_NAME} STREQUAL "linux")
-    if(IS_AARCH64 EQUAL "1")
-        # 使用v8官方代码编译的 libv8_monolith.a 在编译时需要指定此配置，使用 node 生成的则需要禁用此配置 
-        target_compile_options(prebuilts INTERFACE -DV8_COMPRESS_POINTERS)
-    else()
-        target_include_directories(prebuilts INTERFACE ${PREBUILTS_PREFIX}/include/c++/v1)
-        target_compile_options(prebuilts INTERFACE -nostdinc++)
+    # 使用v8官方代码编译的 libv8_monolith.a 在编译时需要指定此配置，使用 node 生成的则需要禁用此配置 
+    target_compile_options(prebuilts INTERFACE -DV8_COMPRESS_POINTERS)
+    if(NOT IS_AARCH64 EQUAL "1")
+         target_include_directories(prebuilts INTERFACE ${PREBUILTS_PREFIX}/include/c++/v1)
+         target_compile_options(prebuilts INTERFACE -nostdinc++)
     endif()
     list(TRANSFORM LIBS PREPEND "-Wl,")
     target_link_libraries(prebuilts INTERFACE -Wl,--start-group ${LIBS} -Wl,--end-group)
