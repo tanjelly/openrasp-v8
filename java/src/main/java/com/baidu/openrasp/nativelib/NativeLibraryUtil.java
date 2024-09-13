@@ -112,22 +112,28 @@ public class NativeLibraryUtil {
 			if (Processor.UNKNOWN != processor) {
 				final String name = System.getProperty("os.name").toLowerCase();
 				if (name.contains("nix") || name.contains("nux")) {
-					Boolean isMusl = false;
-					try {
-						ProcessBuilder builder = new ProcessBuilder();
-						builder.command("sh", "-c", "case `ldd --version 2>&1` in *musl*) exit 0 ;; *) exit 1 ;; esac");
-						Process process = builder.start();
-						isMusl = process.waitFor() == 0;
-					} catch (Exception e) {
-						LOGGER.log(Level.WARNING, "Problem with detecting libc", e);
-					}
-					if (isMusl) {
-						if (Processor.INTEL_32 == processor) {
-							architecture = Architecture.LINUX_MUSL32;
-						} else if (Processor.INTEL_64 == processor) {
-							architecture = Architecture.LINUX_MUSL64;
-						}
-					} else if (Processor.INTEL_32 == processor) {
+					// MUSL 架构系统下通过安装 libc6-compat gcompat 实现兼容
+//					Boolean isMusl = false;
+//					try {
+//						ProcessBuilder builder = new ProcessBuilder();
+//						builder.command("sh", "-c", "case `ldd --version 2>&1` in *musl*) exit 0 ;; *) exit 1 ;; esac");
+//						Process process = builder.start();
+//						isMusl = process.waitFor() == 0;
+//					} catch (Exception e) {
+//						LOGGER.log(Level.WARNING, "Problem with detecting libc", e);
+//					}
+//					if (isMusl) {
+//						if (Processor.INTEL_32 == processor) {
+//							architecture = Architecture.LINUX_32;
+//						} else if (Processor.INTEL_64 == processor) {
+//							architecture = Architecture.LINUX_64;
+//						} else if (Processor.ARM == processor) {
+//							architecture = Architecture.LINUX_ARM;
+//						} else if (Processor.AARCH_64 == processor) {
+//							architecture = Architecture.LINUX_ARM64;
+//						}
+//					} else if (Processor.INTEL_32 == processor) {
+					if (Processor.INTEL_32 == processor) {
 						architecture = Architecture.LINUX_32;
 					} else if (Processor.INTEL_64 == processor) {
 						architecture = Architecture.LINUX_64;
